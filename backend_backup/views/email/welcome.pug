@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Welcome to Resume Builder
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px 5px 0 0;
+      }
+      .content {
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6c757d;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .footer {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #6c757d;
+      }
+  body
+    .header
+      h1 Welcome to Resume Builder
+    .content
+      p Hello #{firstName},
+      p Thank you for signing up for Resume Builder! We're excited to have you on board.
+      p With our platform, you can create professional resumes in minutes. Get started by creating your first resume now!
+      a.button(href=`${url}`, target='_blank') Create Your First Resume
+      p If you have any questions or need assistance, feel free to reply to this email.
+      p Best regards,
+      p The Resume Builder Team
+    .footer
+      p © #{new Date().getFullYear()} Resume Builder. All rights reserved.
