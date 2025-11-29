@@ -42,3 +42,8 @@ Thumbs.db
 
 # MacOS
 *.DS_Store
+# Backend
+backend/.env
+
+# Frontend
+frontend/.env
