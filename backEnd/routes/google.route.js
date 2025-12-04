@@ -23,7 +23,7 @@ router.get(
     );
 
     // Redirect to frontend homepage with token
-    res.redirect(`http://localhost:5176/?token=${token}`);
+    res.redirect(`http://localhost:5177/?token=${token}`);
   }
 );
 

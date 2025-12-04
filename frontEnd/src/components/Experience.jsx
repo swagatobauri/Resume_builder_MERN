@@ -17,9 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addExperience, updateExperience, deleteExperience } from "../redux/experienceSlice";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from "@mui/material/Tooltip";
-import { Link } from "react-router-dom";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Experience = () => {
   const dispatch = useDispatch();
@@ -223,47 +220,10 @@ const Experience = () => {
         </Button>
       </CardContent >
 
-      <Grid container spacing={2} alignItems="center" lg={12} >
-        <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
-          <Link to={'/projects'} style={linkStyle}>
-            <ArrowBackIcon style={iconStyle} />
-            <h4>Project Section</h4>
-          </Link>
-          <Link to={'/extraDetails'} style={linkStyle}>
-            <h4>ExtraDetails Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
-          </Link>
-        </Grid>
-      </Grid>
     </div >
   );
 };
 
-const linkStyle = {
-  textDecoration: 'none',
-  color: 'inherit',
-  display: 'flex',
-  justifyContent: 'end',
-  alignItems: 'center',
-  gap: '5px',
-  transition: 'border-radius 0.3s', // Add transition for border-radius
-  borderRadius: '4px', // Initial border-radius
-  padding: '5px', // Add padding for hover effect
-};
-
-const containerStyles = {
-  marginBottom: '20px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  // backgroundColor: 'crimson',
-  marginTop: '20px',
-  paddingRight: '40px',
-  paddingLeft: '40px',
-};
-const iconStyle = {
-  verticalAlign: 'middle', // Align icon vertically with text
-  marginLeft: '5px', // Add margin between icon and text
-};
+// Navigation related styles and components have been removed
 
 export default Experience;

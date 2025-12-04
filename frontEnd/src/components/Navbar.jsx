@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import logo from "../assets/profile.png";
 import { logoutUser } from "../redux/userSlice";
 import { clearEducation } from "../redux/educationSlice";
@@ -23,9 +24,9 @@ import { clearProfile } from "../redux/profileSlice";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
-  const [sectionsAnchorEl, setSectionsAnchorEl] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [sectionsAnchorEl, setSectionsAnchorEl] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,22 +34,19 @@ const Navbar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleSectionsClick = (event) => {
-    setSectionsAnchorEl(event.currentTarget);
-  };
-
   const handleProfileClick = () => {
-    navigate('/user-profile');
-    setAnchorEl(null);
+    navigate('/profile');
+    handleClose();
   };
 
   const handleContactUsClick = () => {
     navigate('/contact-us');
-    setAnchorEl(null);
+    handleClose();
   };
+
   const handleTemplateClick = () => {
     navigate('/templates');
-    setAnchorEl(null);
+    handleClose();
   };
 
   const handleClose = () => {
@@ -78,7 +76,7 @@ const Navbar = () => {
   // console.log(currentUser);
   return (
     <nav className="nav-container">
-      <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
+      <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black' }}>
         <Toolbar>
           <div className="menu-icon">
             <IconButton
@@ -96,43 +94,46 @@ const Navbar = () => {
             onClose={() => setIsDrawerOpen(false)}
           >
             {currentUser !== null ? (
-              <>
-                <List>
-                  <ListItem button component={Link} to="/" onClick={handleClose}>
-                    <ListItemIcon>
-                      <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Home" />
-                  </ListItem>
-                  <ListItem button component={Link} to="/profile" onClick={handleClose}>
-                    <ListItemIcon>
-                      <EditIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Edit Resume" />
-                  </ListItem>
-                  <ListItem button component={Link} to="/templates" onClick={handleClose}>
-                    <ListItemIcon>
-                      <DescriptionIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Templates" />
-                  </ListItem>
-                  <ListItem button onClick={handleLogout} >
-                    <ListItemIcon>
-                      <LogoutIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
-                </List>
-              </>
+              <List>
+                <ListItem button component={Link} to="/" onClick={handleClose}>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItem>
+                <ListItem button component={Link} to="/profile" onClick={handleClose}>
+                  <ListItemIcon>
+                    <EditIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Edit Resume" />
+                </ListItem>
+                <ListItem button component={Link} to="/templates" onClick={handleClose}>
+                  <ListItemIcon>
+                    <DescriptionIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Templates" />
+                </ListItem>
+                <ListItem button component={Link} to="/auto-resume" onClick={handleClose}>
+                  <ListItemIcon>
+                    <AutoAwesomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="AI Resume Generator" />
+                </ListItem>
+                <ListItem button onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </List>
             ) : (
-              <>
-                <div className="drawer-div">
-                  <h3>Login Please!</h3>
-                </div>
-              </>)}
+              <div className="drawer-div">
+                <h3>Login Please!</h3>
+              </div>
+            )}
           </Drawer>
 
-          <img className="logo" src={logo} alt="resume" width={"40px"} height={"40px"} />
+          <img className="logo" src={logo} alt="resume" width="40" height="40" />
           <Typography
             className="logo-text"
             variant="h5"
@@ -143,65 +144,42 @@ const Navbar = () => {
               fontWeight: "600",
             }}
           >
-            <Link to={'/'} className="resume-builder-link"> RESUME BUILDER</Link>
+            <Link to={'/'} className="resume-builder-link">RESUME BUILDER</Link>
           </Typography>
 
+          {/* Edit Resume button removed as per user request */}
           {currentUser ? (
-            <>
-              <Button color="inherit" onClick={handleSectionsClick}>
-                Sections
-              </Button>
-              <Menu
-                anchorEl={sectionsAnchorEl}
-                open={Boolean(sectionsAnchorEl)}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <MenuItem onClick={() => { navigate('/profile'); handleClose(); }}>Profile</MenuItem>
-                <MenuItem onClick={() => { navigate('/education'); handleClose(); }}>Education</MenuItem>
-                <MenuItem onClick={() => { navigate('/projects'); handleClose(); }}>Projects</MenuItem>
-                <MenuItem onClick={() => { navigate('/experience'); handleClose(); }}>Experience</MenuItem>
-                <MenuItem onClick={() => { navigate('/extraDetails'); handleClose(); }}>Extra Details</MenuItem>
-              </Menu>
-              <div className="avatar-container">
-                <Avatar
-                  src={currentUser?.avatar}
-                  alt="user"
-                  className="avatar"
-                  onClick={handleClick}
-                />
-              </div>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
-                <MenuItem onClick={handleTemplateClick}>Templates</MenuItem>
-                <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </>
+            <div className="avatar-container">
+              <Avatar
+                src={currentUser?.avatar}
+                alt="user"
+                className="avatar"
+                onClick={handleClick}
+              />
+            </div>
           ) : (
             <Link to={'/sign-in'} className="login-link">
-              <Button color="inherit">Login</Button>
+              <Button color="inherit">Sign In</Button>
             </Link>
           )}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
+            <MenuItem onClick={handleTemplateClick}>Templates</MenuItem>
+            <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </nav>

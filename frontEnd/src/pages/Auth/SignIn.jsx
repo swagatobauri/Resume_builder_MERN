@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BASE_URL } from '../../api';
 import { motion } from 'framer-motion';
 import { CircularProgress } from '@mui/material';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/userSlice';
+import GoogleLoginButton from '../../components/GoogleLoginButton';
 
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  // ---------------------------------------
-  // ✅ NEW GOOGLE OAUTH LOGIN (NO FIREBASE)
-  // ---------------------------------------
-const handleGoogle = () => {
-    window.location.href = "http://localhost:5005/api/auth/google";
-};
+  // Handle successful Google login
+  const handleGoogleSuccess = (userData) => {
+    dispatch(signInSuccess(userData));
+    navigate('/home');
+  };
 
 
 
@@ -67,55 +65,33 @@ const handleGoogle = () => {
         {bubbles}
       </div>
 
-      <button style={styles.button} onClick={handleGoogle}>
-        {loading ? (
-          <CircularProgress size={28} />
-        ) : (
-          <>
-            <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              alt="Google Logo"
-              style={styles.icon}
-            />
-            <p style={styles.text}>Continue With Google</p>
-          </>
-        )}
-      </button>
+      <div style={styles.googleButtonContainer}>
+        <GoogleLoginButton />
+        {loading && <CircularProgress size={28} style={styles.loader} />}
+      </div>
     </div>
   );
 }
 
 const styles = {
   container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: '#f5f5f5',
     position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '85vh',
+    overflow: 'hidden',
   },
-  button: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '12px 21px',
-    borderRadius: '5px',
-    marginLeft: '600px',
-    border: 'black 2px solid',
-    backgroundColor: '#fff',
-    color: '#fff',
-    cursor: 'pointer',
-    width: '320px',
-    zIndex: 1,
+  googleButtonContainer: {
+    position: 'relative',
+    zIndex: 10,
   },
-  text: {
-    fontSize: '18px',
-    fontWeight: '700',
-    margin: '0',
-    color: '#000',
-  },
-  icon: {
-    marginRight: '10px',
-    width: '24px',
-    height: '24px',
+  loader: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 20,
   },
 };

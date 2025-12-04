@@ -25,15 +25,13 @@ const Profile = () => {
   const dispatch = useDispatch();
   const currentProfile = useSelector((state) => state.profileDetails);
 
-  // console.log("Profilepage:", currentProfile);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     dispatch(updateProfile({ [name]: value }));
   };
 
   const containerStyle = {
-    marginTop: "30",
+    marginTop: 30,
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
@@ -50,18 +48,17 @@ const Profile = () => {
             </Typography>
           }
         />
-      </Card>
-      <CardContent>
-        <div>
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+        <CardContent>
+          {/* Personal Details Grid */}
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="firstName"
-                label="FirstName"
-                style={{ width: "100%" }}
+                label="First Name"
+                fullWidth
                 required
                 value={currentProfile?.firstName}
                 onChange={handleChange}
@@ -76,14 +73,14 @@ const Profile = () => {
                 }}
               />
             </Grid>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="lastName"
-                label="LastName"
-                style={{ width: "100%" }}
+                label="Last Name"
+                fullWidth
                 required
                 value={currentProfile?.lastName}
                 onChange={handleChange}
@@ -99,15 +96,16 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="email"
                 name="email"
                 label="Email"
-                style={{ width: "100%" }}
+                fullWidth
                 required
                 value={currentProfile?.email}
                 onChange={handleChange}
@@ -122,14 +120,14 @@ const Profile = () => {
                 }}
               />
             </Grid>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="mobile"
-                label="MobileNo"
-                style={{ width: "100%" }}
+                label="Mobile No"
+                fullWidth
                 required
                 value={currentProfile?.mobile}
                 onChange={handleChange}
@@ -145,34 +143,10 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          {/* <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={12} sm={12} xs={12} lg={12}>
-              <TextField
-                margin="dense"
-                variant="outlined"
-                type="text"
-                name="aboutMe"
-                label="About Me"
-                multiline
-                rows={2}
-                fullWidth
-                style={{ width: "100%" }}
-                value={currentProfile?.aboutMe}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <PersonIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid> */}
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={12} sm={12} xs={12} lg={12}>
+
+          {/* Address */}
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={12} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
@@ -182,7 +156,6 @@ const Profile = () => {
                 multiline
                 rows={1}
                 fullWidth
-                style={{ width: "100%" }}
                 value={currentProfile?.address}
                 onChange={handleChange}
                 InputProps={{
@@ -197,15 +170,17 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+
+          {/* Social Links */}
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="linkedIn"
-                label="Linked In"
-                style={{ width: "100%" }}
+                label="LinkedIn"
+                fullWidth
                 value={currentProfile?.linkedIn}
                 onChange={handleChange}
                 InputProps={{
@@ -219,14 +194,14 @@ const Profile = () => {
                 }}
               />
             </Grid>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="github"
-                label="Github"
-                style={{ width: "100%" }}
+                label="GitHub"
+                fullWidth
                 value={currentProfile?.github}
                 onChange={handleChange}
                 InputProps={{
@@ -241,15 +216,17 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+
+          {/* Coding Profiles */}
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="codechef"
                 label="Codechef"
-                style={{ width: "100%" }}
+                fullWidth
                 value={currentProfile?.codechef}
                 onChange={handleChange}
                 InputProps={{
@@ -263,14 +240,14 @@ const Profile = () => {
                 }}
               />
             </Grid>
-            <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid item md={6} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="leetcode"
                 label="Leetcode"
-                style={{ width: "100%" }}
+                fullWidth
                 value={currentProfile?.leetcode}
                 onChange={handleChange}
                 InputProps={{
@@ -285,15 +262,16 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={12} sm={12} xs={12} lg={12}>
+
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={12} sm={12} xs={12}>
               <TextField
                 margin="dense"
                 variant="outlined"
                 type="text"
                 name="codeforces"
                 label="Codeforces"
-                style={{ width: "100%" }}
+                fullWidth
                 value={currentProfile?.codeforces}
                 onChange={handleChange}
                 InputProps={{
@@ -308,18 +286,16 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-        </div>
+        </CardContent>
+      </Card>
 
-      </CardContent>
-
-      <Grid container spacing={2} alignItems="center" lg={12} >
-        <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
-          <Link to={'/education'} style={linkStyle}>
-            <h4>Education Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
-          </Link>
-        </Grid>
-      </Grid>
+      {/* Education Section Link */}
+      <div style={containerStyles}>
+        <Link to={'/education'} style={linkStyle}>
+          {/* <h4>Education Section</h4> */}
+          {/* <ArrowForwardIcon style={iconStyle} /> */}
+        </Link>
+      </div>
     </div>
   );
 };
@@ -331,9 +307,8 @@ const linkStyle = {
   justifyContent: 'end',
   alignItems: 'center',
   gap: '5px',
-  transition: 'border-radius 0.3s', // Add transition for border-radius
-  borderRadius: '4px', // Initial border-radius
-  padding: '5px', // Add padding for hover effect
+  borderRadius: '4px',
+  padding: '5px',
 };
 
 const containerStyles = {
@@ -341,12 +316,13 @@ const containerStyles = {
   display: 'flex',
   justifyContent: 'end',
   alignItems: 'center',
-  // backgroundColor: 'crimson',
   marginTop: '20px',
   paddingRight: '40px',
 };
+
 const iconStyle = {
-  verticalAlign: 'middle', // Align icon vertically with text
-  marginLeft: '5px', // Add margin between icon and text
+  verticalAlign: 'middle',
+  marginLeft: '5px',
 };
+
 export default Profile;
