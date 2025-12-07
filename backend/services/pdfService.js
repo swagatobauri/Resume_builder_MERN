@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer-core');
 
 // Helper to generate HTML for the resume
 const generateResumeHTML = (resumeData, layoutType) => {
@@ -254,33 +255,16 @@ const getCreativeLayout = (data) => {
 // --- Main PDF Generation Function ---
 
 const generateResumePDF = async (resumeData, layoutType = 'modern') => {
+    let browser = null;
     try {
-        // Puppeteer configuration for Render
-        const puppeteerConfig = {
-            headless: 'new',
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu',
-                '--disable-extensions',
-                '--disable-software-rasterizer',
-                '--disable-dev-tools',
-                '--no-first-run',
-                '--no-zygote',
-                '--single-process'
-            ]
-        };
+        // Use chrome-aws-lambda for serverless environments
+        browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+        });
 
-        // Use system Chromium on Render if available
-        if (process.env.CHROME_BIN) {
-            puppeteerConfig.executablePath = process.env.CHROME_BIN;
-        } else if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-            puppeteerConfig.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-        }
-
-        console.log('Launching Puppeteer with config:', JSON.stringify(puppeteerConfig, null, 2));
-        const browser = await puppeteer.launch(puppeteerConfig);
         const page = await browser.newPage();
 
         const html = generateResumeHTML(resumeData, layoutType);

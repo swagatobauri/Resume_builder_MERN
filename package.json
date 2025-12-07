@@ -16,6 +16,7 @@
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
+    "chrome-aws-lambda": "^10.1.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -28,6 +29,7 @@
     "openai": "^6.10.0",
     "pdfkit": "^0.17.2",
     "puppeteer": "^24.32.0",
+    "puppeteer-core": "^10.1.0",
     "supertest": "^7.1.4"
   }
 }
