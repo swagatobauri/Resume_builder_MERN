@@ -257,11 +257,13 @@ const generateResumePDF = async (resumeData, layoutType = 'modern') => {
     try {
         const browser = await puppeteer.launch({
             headless: 'new',
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage', // Handle memory issues
-                '--disable-gpu'
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--disable-extensions'
             ]
         });
         const page = await browser.newPage();
