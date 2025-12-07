@@ -19,12 +19,13 @@ const app = express();
 
 // Security Middleware
 app.use(helmet()); // Security headers
-app.use(mongoSanitize({
-  replaceWith: '_',
-  onSanitize: ({ req, key }) => {
-    console.warn(`Sanitized ${key} in ${req.method} ${req.path}`);
-  },
-})); // Prevent MongoDB injection
+// Temporarily disabled mongoSanitize due to compatibility issues on Render
+// app.use(mongoSanitize({
+//   replaceWith: '_',
+//   onSanitize: ({ req, key }) => {
+//     console.warn(`Sanitized ${key} in ${req.method} ${req.path}`);
+//   },
+// })); // Prevent MongoDB injection
 
 // CORS Configuration
 const allowedOrigins = process.env.NODE_ENV === 'production'
