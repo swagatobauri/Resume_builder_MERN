@@ -300,8 +300,22 @@ const generateResumePDF = async (resumeData, layoutType = 'modern') => {
         return pdfBuffer;
 
     } catch (error) {
-        console.error('Puppeteer PDF generation error:', error);
-        throw error;
+        console.error('=== PDF Generation Error ===');
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        console.error('===========================');
+
+        // Clean up browser if it was created
+        if (browser) {
+            try {
+                await browser.close();
+            } catch (closeError) {
+                console.error('Error closing browser:', closeError);
+            }
+        }
+
+        throw new Error(`PDF generation failed: ${error.message}`);
     }
 };
 
