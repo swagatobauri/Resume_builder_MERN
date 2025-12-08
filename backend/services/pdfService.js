@@ -1,185 +1,141 @@
-const React = require('react');
-const { Document, Page, Text, View, StyleSheet, pdf } = require('@react-pdf/renderer');
+const PDFDocument = require('pdfkit');
 
-// Define styles
-const styles = StyleSheet.create({
-    page: {
-        padding: 30,
-        fontSize: 11,
-        fontFamily: 'Helvetica',
-    },
-    header: {
-        marginBottom: 20,
-        borderBottom: '2 solid #2563eb',
-        paddingBottom: 10,
-    },
-    name: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#1e40af',
-        marginBottom: 5,
-    },
-    contactInfo: {
-        fontSize: 10,
-        color: '#64748b',
-        marginBottom: 2,
-    },
-    section: {
-        marginTop: 15,
-        marginBottom: 10,
-    },
-    sectionTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#1e40af',
-        marginBottom: 8,
-        borderBottom: '1 solid #cbd5e1',
-        paddingBottom: 4,
-    },
-    text: {
-        marginBottom: 4,
-        lineHeight: 1.4,
-    },
-    bold: {
-        fontWeight: 'bold',
-    },
-    experienceItem: {
-        marginBottom: 12,
-    },
-    jobTitle: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 2,
-    },
-    company: {
-        fontSize: 11,
-        color: '#475569',
-        marginBottom: 2,
-    },
-    skillsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 6,
-    },
-    skillItem: {
-        backgroundColor: '#e0e7ff',
-        padding: '4 8',
-        borderRadius: 4,
-        fontSize: 10,
-    },
-});
-
-// Create Resume PDF Document
-const createResumePDF = (resumeData) => {
-    const { personalInfo, summary, experience, education, skills, projects, certifications } = resumeData;
-
-    const sections = [];
-
-    // Header
-    sections.push(
-        React.createElement(View, { style: styles.header },
-            React.createElement(Text, { style: styles.name }, personalInfo?.fullName || 'Your Name'),
-            personalInfo?.email && React.createElement(Text, { style: styles.contactInfo }, personalInfo.email),
-            personalInfo?.phone && React.createElement(Text, { style: styles.contactInfo }, personalInfo.phone),
-            personalInfo?.location && React.createElement(Text, { style: styles.contactInfo }, personalInfo.location)
-        )
-    );
-
-    // Summary
-    if (summary) {
-        sections.push(
-            React.createElement(View, { style: styles.section },
-                React.createElement(Text, { style: styles.sectionTitle }, 'Professional Summary'),
-                React.createElement(Text, { style: styles.text }, summary)
-            )
-        );
-    }
-
-    // Experience
-    if (experience && experience.length > 0) {
-        const expItems = experience.map((exp, index) =>
-            React.createElement(View, { key: index, style: styles.experienceItem },
-                React.createElement(Text, { style: styles.jobTitle }, exp.position),
-                React.createElement(Text, { style: styles.company }, `${exp.company} | ${exp.duration}`),
-                React.createElement(Text, { style: styles.text }, exp.description),
-                exp.technologies && React.createElement(Text, { style: styles.text }, `Technologies: ${exp.technologies}`)
-            )
-        );
-        sections.push(
-            React.createElement(View, { style: styles.section },
-                React.createElement(Text, { style: styles.sectionTitle }, 'Experience'),
-                ...expItems
-            )
-        );
-    }
-
-    // Education
-    if (education && education.length > 0) {
-        const eduItems = education.map((edu, index) =>
-            React.createElement(View, { key: index, style: styles.experienceItem },
-                React.createElement(Text, { style: styles.jobTitle }, `${edu.degree} in ${edu.field}`),
-                React.createElement(Text, { style: styles.company }, `${edu.institution} | ${edu.graduationYear}`)
-            )
-        );
-        sections.push(
-            React.createElement(View, { style: styles.section },
-                React.createElement(Text, { style: styles.sectionTitle }, 'Education'),
-                ...eduItems
-            )
-        );
-    }
-
-    // Skills
-    if (skills && (skills.technical?.length > 0 || skills.soft?.length > 0)) {
-        const skillsContent = [];
-        if (skills.technical && skills.technical.length > 0) {
-            skillsContent.push(
-                React.createElement(View, { style: { marginBottom: 8 } },
-                    React.createElement(Text, { style: [styles.text, styles.bold] }, 'Technical:'),
-                    React.createElement(Text, { style: styles.text }, skills.technical.join(', '))
-                )
-            );
-        }
-        if (skills.soft && skills.soft.length > 0) {
-            skillsContent.push(
-                React.createElement(View, {},
-                    React.createElement(Text, { style: [styles.text, styles.bold] }, 'Soft Skills:'),
-                    React.createElement(Text, { style: styles.text }, skills.soft.join(', '))
-                )
-            );
-        }
-        sections.push(
-            React.createElement(View, { style: styles.section },
-                React.createElement(Text, { style: styles.sectionTitle }, 'Skills'),
-                ...skillsContent
-            )
-        );
-    }
-
-    return React.createElement(Document, {},
-        React.createElement(Page, { size: 'A4', style: styles.page }, ...sections)
-    );
-};
-
-// Generate PDF Buffer
+// Generate Resume PDF using PDFKit
 const generateResumePDF = async (resumeData, layoutType = 'modern') => {
-    try {
-        console.log('Generating PDF with @react-pdf/renderer...');
+    return new Promise((resolve, reject) => {
+        try {
+            console.log('Generating PDF with PDFKit...');
 
-        const doc = createResumePDF(resumeData);
-        const pdfBuffer = await pdf(doc).toBuffer();
+            const doc = new PDFDocument({
+                size: 'A4',
+                margins: { top: 50, bottom: 50, left: 50, right: 50 }
+            });
 
-        console.log('PDF generated successfully, size:', pdfBuffer.length, 'bytes');
-        return pdfBuffer;
-    } catch (error) {
-        console.error('=== PDF Generation Error ===');
-        console.error('Error name:', error.name);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
-        console.error('===========================');
+            const buffers = [];
+            doc.on('data', buffers.push.bind(buffers));
+            doc.on('end', () => {
+                const pdfBuffer = Buffer.concat(buffers);
+                console.log('PDF generated successfully, size:', pdfBuffer.length, 'bytes');
+                resolve(pdfBuffer);
+            });
+            doc.on('error', reject);
 
-        throw new Error(`PDF generation failed: ${error.message}`);
-    }
+            const { personalInfo, summary, experience, education, skills, projects, certifications } = resumeData;
+
+            // Header
+            doc.fontSize(24).fillColor('#1e40af').text(personalInfo?.fullName || 'Your Name', { align: 'left' });
+            doc.moveDown(0.5);
+
+            if (personalInfo?.email || personalInfo?.phone || personalInfo?.location) {
+                doc.fontSize(10).fillColor('#64748b');
+                const contactInfo = [
+                    personalInfo?.email,
+                    personalInfo?.phone,
+                    personalInfo?.location
+                ].filter(Boolean).join(' | ');
+                doc.text(contactInfo);
+            }
+
+            doc.moveDown(1);
+            doc.strokeColor('#2563eb').lineWidth(2).moveTo(50, doc.y).lineTo(545, doc.y).stroke();
+            doc.moveDown(1);
+
+            // Summary
+            if (summary) {
+                doc.fontSize(14).fillColor('#1e40af').text('Professional Summary', { underline: true });
+                doc.moveDown(0.5);
+                doc.fontSize(11).fillColor('#000000').text(summary, { align: 'justify' });
+                doc.moveDown(1);
+            }
+
+            // Experience
+            if (experience && experience.length > 0) {
+                doc.fontSize(14).fillColor('#1e40af').text('Experience', { underline: true });
+                doc.moveDown(0.5);
+
+                experience.forEach((exp, index) => {
+                    doc.fontSize(12).fillColor('#000000').text(exp.position, { continued: false });
+                    doc.fontSize(11).fillColor('#475569').text(`${exp.company} | ${exp.duration}`);
+                    doc.moveDown(0.3);
+                    doc.fontSize(10).fillColor('#000000').text(exp.description, { align: 'justify' });
+                    if (exp.technologies) {
+                        doc.fontSize(10).fillColor('#64748b').text(`Technologies: ${exp.technologies}`);
+                    }
+                    if (index < experience.length - 1) doc.moveDown(0.8);
+                });
+                doc.moveDown(1);
+            }
+
+            // Education
+            if (education && education.length > 0) {
+                doc.fontSize(14).fillColor('#1e40af').text('Education', { underline: true });
+                doc.moveDown(0.5);
+
+                education.forEach((edu, index) => {
+                    doc.fontSize(12).fillColor('#000000').text(`${edu.degree} in ${edu.field}`);
+                    doc.fontSize(11).fillColor('#475569').text(`${edu.institution} | ${edu.graduationYear}`);
+                    if (index < education.length - 1) doc.moveDown(0.5);
+                });
+                doc.moveDown(1);
+            }
+
+            // Skills
+            if (skills && (skills.technical?.length > 0 || skills.soft?.length > 0)) {
+                doc.fontSize(14).fillColor('#1e40af').text('Skills', { underline: true });
+                doc.moveDown(0.5);
+
+                if (skills.technical && skills.technical.length > 0) {
+                    doc.fontSize(11).fillColor('#000000').text('Technical: ', { continued: true });
+                    doc.fontSize(10).fillColor('#475569').text(skills.technical.join(', '));
+                    doc.moveDown(0.3);
+                }
+
+                if (skills.soft && skills.soft.length > 0) {
+                    doc.fontSize(11).fillColor('#000000').text('Soft Skills: ', { continued: true });
+                    doc.fontSize(10).fillColor('#475569').text(skills.soft.join(', '));
+                }
+                doc.moveDown(1);
+            }
+
+            // Projects
+            if (projects && projects.length > 0) {
+                doc.fontSize(14).fillColor('#1e40af').text('Projects', { underline: true });
+                doc.moveDown(0.5);
+
+                projects.forEach((project, index) => {
+                    doc.fontSize(12).fillColor('#000000').text(project.name);
+                    doc.fontSize(10).fillColor('#475569').text(project.description, { align: 'justify' });
+                    if (project.technologies) {
+                        doc.fontSize(10).fillColor('#64748b').text(`Technologies: ${project.technologies}`);
+                    }
+                    if (index < projects.length - 1) doc.moveDown(0.5);
+                });
+                doc.moveDown(1);
+            }
+
+            // Certifications
+            if (certifications && certifications.length > 0) {
+                doc.fontSize(14).fillColor('#1e40af').text('Certifications', { underline: true });
+                doc.moveDown(0.5);
+
+                certifications.forEach((cert, index) => {
+                    doc.fontSize(12).fillColor('#000000').text(cert.name);
+                    doc.fontSize(11).fillColor('#475569').text(`${cert.issuer} | ${cert.date}`);
+                    if (index < certifications.length - 1) doc.moveDown(0.5);
+                });
+            }
+
+            doc.end();
+
+        } catch (error) {
+            console.error('=== PDF Generation Error ===');
+            console.error('Error name:', error.name);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
+            console.error('===========================');
+            reject(new Error(`PDF generation failed: ${error.message}`));
+        }
+    });
 };
 
 module.exports = {
