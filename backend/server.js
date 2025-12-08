@@ -17,6 +17,9 @@ connectDB();
 
 const app = express();
 
+// Trust proxy - required for Render and other reverse proxies
+app.set('trust proxy', 1);
+
 // Security Middleware
 app.use(helmet()); // Security headers
 // Temporarily disabled mongoSanitize due to compatibility issues on Render

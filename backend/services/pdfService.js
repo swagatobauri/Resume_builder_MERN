@@ -258,10 +258,12 @@ const generateResumePDF = async (resumeData, layoutType = 'modern') => {
     let browser = null;
     try {
         // Use chrome-aws-lambda for serverless environments
+        const executablePath = await chromium.executablePath;
+
         browser = await puppeteer.launch({
             args: chromium.args,
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
+            executablePath: executablePath,
             headless: chromium.headless,
         });
 
