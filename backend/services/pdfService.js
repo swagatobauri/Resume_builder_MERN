@@ -69,104 +69,95 @@ const styles = StyleSheet.create({
     },
 });
 
-// Resume PDF Document Component
-const ResumePDF = ({ resumeData }) => {
+// Create Resume PDF Document
+const createResumePDF = (resumeData) => {
     const { personalInfo, summary, experience, education, skills, projects, certifications } = resumeData;
 
-    return (
-        <Document>
-            <Page size="A4" style={styles.page}>
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.name}>{personalInfo?.fullName || 'Your Name'}</Text>
-                    {personalInfo?.email && <Text style={styles.contactInfo}>{personalInfo.email}</Text>}
-                    {personalInfo?.phone && <Text style={styles.contactInfo}>{personalInfo.phone}</Text>}
-                    {personalInfo?.location && <Text style={styles.contactInfo}>{personalInfo.location}</Text>}
-                </View>
+    const sections = [];
 
-                {/* Summary */}
-                {summary && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Professional Summary</Text>
-                        <Text style={styles.text}>{summary}</Text>
-                    </View>
-                )}
+    // Header
+    sections.push(
+        React.createElement(View, { style: styles.header },
+            React.createElement(Text, { style: styles.name }, personalInfo?.fullName || 'Your Name'),
+            personalInfo?.email && React.createElement(Text, { style: styles.contactInfo }, personalInfo.email),
+            personalInfo?.phone && React.createElement(Text, { style: styles.contactInfo }, personalInfo.phone),
+            personalInfo?.location && React.createElement(Text, { style: styles.contactInfo }, personalInfo.location)
+        )
+    );
 
-                {/* Experience */}
-                {experience && experience.length > 0 && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Experience</Text>
-                        {experience.map((exp, index) => (
-                            <View key={index} style={styles.experienceItem}>
-                                <Text style={styles.jobTitle}>{exp.position}</Text>
-                                <Text style={styles.company}>{exp.company} | {exp.duration}</Text>
-                                <Text style={styles.text}>{exp.description}</Text>
-                                {exp.technologies && <Text style={styles.text}>Technologies: {exp.technologies}</Text>}
-                            </View>
-                        ))}
-                    </View>
-                )}
+    // Summary
+    if (summary) {
+        sections.push(
+            React.createElement(View, { style: styles.section },
+                React.createElement(Text, { style: styles.sectionTitle }, 'Professional Summary'),
+                React.createElement(Text, { style: styles.text }, summary)
+            )
+        );
+    }
 
-                {/* Education */}
-                {education && education.length > 0 && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Education</Text>
-                        {education.map((edu, index) => (
-                            <View key={index} style={styles.experienceItem}>
-                                <Text style={styles.jobTitle}>{edu.degree} in {edu.field}</Text>
-                                <Text style={styles.company}>{edu.institution} | {edu.graduationYear}</Text>
-                            </View>
-                        ))}
-                    </View>
-                )}
+    // Experience
+    if (experience && experience.length > 0) {
+        const expItems = experience.map((exp, index) =>
+            React.createElement(View, { key: index, style: styles.experienceItem },
+                React.createElement(Text, { style: styles.jobTitle }, exp.position),
+                React.createElement(Text, { style: styles.company }, `${exp.company} | ${exp.duration}`),
+                React.createElement(Text, { style: styles.text }, exp.description),
+                exp.technologies && React.createElement(Text, { style: styles.text }, `Technologies: ${exp.technologies}`)
+            )
+        );
+        sections.push(
+            React.createElement(View, { style: styles.section },
+                React.createElement(Text, { style: styles.sectionTitle }, 'Experience'),
+                ...expItems
+            )
+        );
+    }
 
-                {/* Skills */}
-                {skills && (skills.technical?.length > 0 || skills.soft?.length > 0) && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Skills</Text>
-                        {skills.technical && skills.technical.length > 0 && (
-                            <View style={{ marginBottom: 8 }}>
-                                <Text style={[styles.text, styles.bold]}>Technical:</Text>
-                                <Text style={styles.text}>{skills.technical.join(', ')}</Text>
-                            </View>
-                        )}
-                        {skills.soft && skills.soft.length > 0 && (
-                            <View>
-                                <Text style={[styles.text, styles.bold]}>Soft Skills:</Text>
-                                <Text style={styles.text}>{skills.soft.join(', ')}</Text>
-                            </View>
-                        )}
-                    </View>
-                )}
+    // Education
+    if (education && education.length > 0) {
+        const eduItems = education.map((edu, index) =>
+            React.createElement(View, { key: index, style: styles.experienceItem },
+                React.createElement(Text, { style: styles.jobTitle }, `${edu.degree} in ${edu.field}`),
+                React.createElement(Text, { style: styles.company }, `${edu.institution} | ${edu.graduationYear}`)
+            )
+        );
+        sections.push(
+            React.createElement(View, { style: styles.section },
+                React.createElement(Text, { style: styles.sectionTitle }, 'Education'),
+                ...eduItems
+            )
+        );
+    }
 
-                {/* Projects */}
-                {projects && projects.length > 0 && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Projects</Text>
-                        {projects.map((project, index) => (
-                            <View key={index} style={styles.experienceItem}>
-                                <Text style={styles.jobTitle}>{project.name}</Text>
-                                <Text style={styles.text}>{project.description}</Text>
-                                {project.technologies && <Text style={styles.text}>Technologies: {project.technologies}</Text>}
-                            </View>
-                        ))}
-                    </View>
-                )}
+    // Skills
+    if (skills && (skills.technical?.length > 0 || skills.soft?.length > 0)) {
+        const skillsContent = [];
+        if (skills.technical && skills.technical.length > 0) {
+            skillsContent.push(
+                React.createElement(View, { style: { marginBottom: 8 } },
+                    React.createElement(Text, { style: [styles.text, styles.bold] }, 'Technical:'),
+                    React.createElement(Text, { style: styles.text }, skills.technical.join(', '))
+                )
+            );
+        }
+        if (skills.soft && skills.soft.length > 0) {
+            skillsContent.push(
+                React.createElement(View, {},
+                    React.createElement(Text, { style: [styles.text, styles.bold] }, 'Soft Skills:'),
+                    React.createElement(Text, { style: styles.text }, skills.soft.join(', '))
+                )
+            );
+        }
+        sections.push(
+            React.createElement(View, { style: styles.section },
+                React.createElement(Text, { style: styles.sectionTitle }, 'Skills'),
+                ...skillsContent
+            )
+        );
+    }
 
-                {/* Certifications */}
-                {certifications && certifications.length > 0 && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Certifications</Text>
-                        {certifications.map((cert, index) => (
-                            <View key={index} style={styles.experienceItem}>
-                                <Text style={styles.jobTitle}>{cert.name}</Text>
-                                <Text style={styles.company}>{cert.issuer} | {cert.date}</Text>
-                            </View>
-                        ))}
-                    </View>
-                )}
-            </Page>
-        </Document>
+    return React.createElement(Document, {},
+        React.createElement(Page, { size: 'A4', style: styles.page }, ...sections)
     );
 };
 
@@ -175,7 +166,7 @@ const generateResumePDF = async (resumeData, layoutType = 'modern') => {
     try {
         console.log('Generating PDF with @react-pdf/renderer...');
 
-        const doc = <ResumePDF resumeData={resumeData} />;
+        const doc = createResumePDF(resumeData);
         const pdfBuffer = await pdf(doc).toBuffer();
 
         console.log('PDF generated successfully, size:', pdfBuffer.length, 'bytes');
