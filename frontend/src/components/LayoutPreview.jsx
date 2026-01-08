@@ -6,8 +6,8 @@ import { Check } from 'lucide-react';
 
 const sampleData = {
     personalInfo: {
-        fullName: 'John Doe',
-        email: 'john@example.com',
+        fullName: 'Rahul',
+        email: 'rahul@newtonschool.com',
         phone: '(555) 123-4567',
         location: 'San Francisco, CA',
         portfolio: 'johndoe.com',
@@ -28,7 +28,7 @@ const sampleData = {
         {
             degree: 'Bachelor of Science',
             field: 'Computer Science',
-            institution: 'University of California',
+            institution: 'Newton School of Technology',
             graduationYear: '2019',
         },
     ],
@@ -72,7 +72,7 @@ const LayoutPreview = ({ selectedLayout, onSelectLayout }) => {
                         onClick={() => onSelectLayout(layout.id)}
                         className={`group relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 ${isSelected
                             ? 'ring-4 ring-primary-500 shadow-2xl scale-[1.02]'
-                            : 'ring-1 ring-slate-200 hover:ring-primary-300 hover:shadow-xl'
+                            : 'ring-1 ring-slate-200'
                             }`}
                     >
                         <div className="bg-white p-5 border-b border-slate-100">
@@ -92,7 +92,7 @@ const LayoutPreview = ({ selectedLayout, onSelectLayout }) => {
 
                         {/* Thumbnail Preview */}
                         <div className="bg-slate-100 p-4 h-96 overflow-hidden relative">
-                            <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors duration-300" />
+                            <div className="absolute inset-0 bg-slate-900/0 transition-colors duration-300" />
                             <div className="transform scale-[0.25] origin-top-left w-[400%] h-[400%] shadow-sm bg-white">
                                 <LayoutComponent resumeData={sampleData} />
                             </div>

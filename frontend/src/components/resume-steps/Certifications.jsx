@@ -54,7 +54,7 @@ const Certifications = () => {
 
             <AnimateList className="space-y-6">
                 {certifications.map((cert, index) => (
-                    <Card key={index} className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+                    <Card key={index} className="border border-slate-200 shadow-sm transition-all duration-300">
                         <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                             <div className="flex items-center gap-3">
                                 <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
@@ -108,7 +108,7 @@ const Certifications = () => {
                 <Button
                     onClick={addCertification}
                     variant="secondary"
-                    className="w-full border-dashed border-2 border-slate-300 hover:border-primary-500 hover:text-primary-600 py-4"
+                    className="w-full border-dashed border-2 border-slate-300 py-4"
                     icon={Plus}
                 >
                     Add Another Certification

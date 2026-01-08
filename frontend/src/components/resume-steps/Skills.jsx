@@ -93,7 +93,7 @@ const Skills = () => {
                     {skills.technical.map((skill, index) => (
                         <span
                             key={skill}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-200 text-blue-700 rounded-lg text-sm font-medium shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-200 text-blue-700 rounded-lg text-sm font-medium shadow-sm transition-all duration-200"
                         >
                             {skill}
                             <button
@@ -141,7 +141,7 @@ const Skills = () => {
                     {skills.soft.map((skill, index) => (
                         <span
                             key={skill}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-pink-200 text-pink-700 rounded-lg text-sm font-medium shadow-sm hover:shadow-md hover:border-pink-300 transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-pink-200 text-pink-700 rounded-lg text-sm font-medium shadow-sm transition-all duration-200"
                         >
                             {skill}
                             <button

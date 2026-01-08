@@ -48,7 +48,7 @@ const Education = () => {
 
             <AnimateList className="space-y-6">
                 {educationList.map((edu, index) => (
-                    <Card key={index} className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+                    <Card key={index} className="border border-slate-200 shadow-sm transition-all duration-300">
                         <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                             <div className="flex items-center gap-3">
                                 <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
@@ -74,7 +74,7 @@ const Education = () => {
                                 label="Institution"
                                 value={edu.institution}
                                 onChange={(e) => updateEducation(index, 'institution', e.target.value)}
-                                placeholder="Stanford University"
+                                placeholder="Newton School of Technology"
                                 required
                                 className="md:col-span-2"
                             />
@@ -115,7 +115,7 @@ const Education = () => {
                 <Button
                     onClick={addEducation}
                     variant="secondary"
-                    className="w-full border-dashed border-2 border-slate-300 hover:border-primary-500 hover:text-primary-600 py-4"
+                    className="w-full border-dashed border-2 border-slate-300 py-4"
                     icon={Plus}
                 >
                     Add Another Education

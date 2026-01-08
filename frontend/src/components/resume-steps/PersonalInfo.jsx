@@ -67,7 +67,7 @@ const PersonalInfo = () => {
                     </p>
                     <div className="flex gap-3 items-start">
                         <Input
-                            placeholder="GitHub username (e.g., octocat)"
+                            placeholder="GitHub username (e.g., rahul)"
                             value={githubUsername}
                             onChange={(e) => setGithubUsername(e.target.value)}
                             disabled={loading}
@@ -102,7 +102,7 @@ const PersonalInfo = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Rahul"
                     error={errors.fullName}
                     icon={User}
                     required
@@ -115,7 +115,7 @@ const PersonalInfo = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="rahul@newtonschool.com"
                     error={errors.email}
                     icon={Mail}
                     required
@@ -127,7 +127,7 @@ const PersonalInfo = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="+91 98765 43210"
                     error={errors.phone}
                     icon={Phone}
                     required
@@ -138,7 +138,7 @@ const PersonalInfo = () => {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="San Francisco, CA"
+                    placeholder="Bangalore, Karnataka"
                     error={errors.location}
                     icon={MapPin}
                     required
@@ -161,7 +161,7 @@ const PersonalInfo = () => {
                     type="url"
                     value={formData.linkedin}
                     onChange={handleChange}
-                    placeholder="https://linkedin.com/in/johndoe"
+                    placeholder="https://linkedin.com/in/rahul"
                     icon={Linkedin}
                 />
 
@@ -171,7 +171,7 @@ const PersonalInfo = () => {
                     type="url"
                     value={formData.github}
                     onChange={handleChange}
-                    placeholder="https://github.com/johndoe"
+                    placeholder="https://github.com/rahul"
                     icon={Github}
                     className="md:col-span-2"
                 />

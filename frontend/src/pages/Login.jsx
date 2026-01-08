@@ -63,7 +63,7 @@ const Login = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="you@example.com"
+                            placeholder="rahul@newtonschool.com"
                             icon={Mail}
                             required
                         />

@@ -9,7 +9,6 @@ This guide covers deploying the AI Resume Builder to production environments.
 4. [Post-Deployment](#post-deployment)
 
 ---
-
 ## MongoDB Atlas Setup
 
 ### 1. Create MongoDB Atlas Account
@@ -76,7 +75,7 @@ In the "Environment" section, add:
 PORT=5000
 MONGO_URI=<your_mongodb_atlas_connection_string>
 JWT_SECRET=<generate_secure_random_string>
-GEMINI_API_KEY=<your_openai_api_key>
+OPENAI_API_KEY=<your_openai_api_key>
 NODE_ENV=production
 FRONTEND_URL=<your_frontend_url_after_deployment>
 ```
@@ -128,7 +127,7 @@ heroku create ai-resume-backend
 ```bash
 heroku config:set MONGO_URI=<your_mongodb_uri>
 heroku config:set JWT_SECRET=<your_jwt_secret>
-heroku config:set GEMINI_API_KEY=<your_gemini_key>
+heroku config:set OPENAI_API_KEY=<your_openai_key>
 heroku config:set NODE_ENV=production
 ```
 
@@ -216,7 +215,7 @@ Redeploy the backend for changes to take effect.
 4. Test all features:
    - Resume creation and editing
    - PDF download
-   - AI analysis (if Gemini key is configured)
+   - AI analysis (if OpenAI key is configured)
    - Job recommendations
 
 ### 3. Monitor Logs
@@ -247,7 +246,7 @@ Both Vercel and Netlify allow custom domains:
 ### Common Issues
 - **Rate Limiting**: Adjust rate limits in `backend/middleware/rateLimiter.js`
 - **PDF Generation**: Puppeteer may need additional configuration on some platforms
-- **Gemini Errors**: Verify API key and check usage limits
+- **OpenAI Errors**: Verify API key and check usage limits
 
 ---
 

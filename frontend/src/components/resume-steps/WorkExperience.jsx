@@ -49,7 +49,7 @@ const WorkExperience = () => {
 
             <AnimateList className="space-y-6">
                 {experiences.map((exp, index) => (
-                    <Card key={index} className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+                    <Card key={index} className="border border-slate-200 shadow-sm transition-all duration-300">
                         <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                             <div className="flex items-center gap-3">
                                 <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
@@ -75,7 +75,7 @@ const WorkExperience = () => {
                                 label="Company Name"
                                 value={exp.company}
                                 onChange={(e) => updateExperience(index, 'company', e.target.value)}
-                                placeholder="Google"
+                                placeholder="Newton School"
                                 required
                             />
 
@@ -83,7 +83,7 @@ const WorkExperience = () => {
                                 label="Position / Title"
                                 value={exp.position}
                                 onChange={(e) => updateExperience(index, 'position', e.target.value)}
-                                placeholder="Senior Software Engineer"
+                                placeholder="Software Developer"
                                 required
                             />
 
@@ -123,7 +123,7 @@ const WorkExperience = () => {
                 <Button
                     onClick={addExperience}
                     variant="secondary"
-                    className="w-full border-dashed border-2 border-slate-300 hover:border-primary-500 hover:text-primary-600 py-4"
+                    className="w-full border-dashed border-2 border-slate-300 py-4"
                     icon={Plus}
                 >
                     Add Another Experience
